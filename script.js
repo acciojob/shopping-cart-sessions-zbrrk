@@ -1,6 +1,3 @@
-// This is the boilerplate code given for you
-// You can modify this code
-
 // Product data
 const products = [
   { id: 1, name: "Product 1", price: 10 },
@@ -15,7 +12,7 @@ const productList = document.getElementById("product-list");
 const cartList = document.getElementById("cart-list");
 const clearCartBtn = document.getElementById("clear-cart-btn");
 
-// Retrieve cart data from sessionStorage (if exists)
+// Retrieve cart data from sessionStorage or initialize empty
 let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
 // Render product list
@@ -30,7 +27,7 @@ function renderProducts() {
     productList.appendChild(li);
   });
 
-  // Add event listeners for all Add to Cart buttons
+  // Add event listeners to buttons
   document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const id = parseInt(e.target.dataset.id);
@@ -39,14 +36,9 @@ function renderProducts() {
   });
 }
 
-// Render cart list
+// Render cart list (✅ now empty if no items)
 function renderCart() {
   cartList.innerHTML = "";
-  if (cart.length === 0) {
-    cartList.innerHTML = "<li>Your cart is empty.</li>";
-    return;
-  }
-
   cart.forEach((item) => {
     const li = document.createElement("li");
     li.textContent = `${item.name} - $${item.price}`;
@@ -54,7 +46,7 @@ function renderCart() {
   });
 }
 
-// Add item to cart
+// Add to cart
 function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
   if (product) {
@@ -64,13 +56,6 @@ function addToCart(productId) {
   }
 }
 
-// Remove item from cart (optional / not required by problem but placeholder)
-function removeFromCart(productId) {
-  cart = cart.filter((item) => item.id !== productId);
-  sessionStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
-}
-
 // Clear cart
 function clearCart() {
   cart = [];
@@ -78,11 +63,11 @@ function clearCart() {
   renderCart();
 }
 
-// Event listener for Clear Cart button
+// Event listener for clear cart button
 if (clearCartBtn) {
   clearCartBtn.addEventListener("click", clearCart);
 }
 
-// Initial render
+// Initialize
 renderProducts();
 renderCart();
